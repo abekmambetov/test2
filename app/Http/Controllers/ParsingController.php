@@ -13,11 +13,22 @@ class ParsingController extends Controller
     public function parseNews()
     {
 
-        $url="http://static.feed.rbc.ru/rbc/logical/footer/news.rss";
+        $url="http://static.feed.rbc.ru/rbcss/logical/footer/news.rss";
 
         $curlResult = geturl($url);
-        
-        $data = $curlResult['html'];
+       
+        // Logging request
+        $RequestLog = new RequestLog();
+        $RequestLog->request_method = $curlResult['request_method'];
+        $RequestLog->request_url = $url;
+        $RequestLog->response_http_code = $curlResult['httpCode'];
+        $RequestLog->response_body = $curlResult['response'];
+        $RequestLog->save();
+
+        if($curlResult['httpCode']!=200) exit();
+
+        // Parse news
+        $data = $curlResult['response'];
 
         $xml   = simplexml_load_string($data, 'SimpleXMLElement', LIBXML_NOCDATA);
 
@@ -71,13 +82,7 @@ class ParsingController extends Controller
             $NewsItem->save();
         }
 
-        // Logging request
-        $RequestLog = new RequestLog();
-        $RequestLog->request_method = $curlResult['request_method'];
-        $RequestLog->request_url = $curlResult['status']['url'];
-        $RequestLog->response_http_code = $curlResult['status']['http_code'];
-        $RequestLog->response_body = $curlResult['html'];
-        $RequestLog->save();
+
     }
     
 }
