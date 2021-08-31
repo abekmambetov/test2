@@ -1,6 +1,6 @@
 <?php //app/helpers.php
 
-//if (!function_exist(function_name: 'getUrl')) {
+if (!function_exists('getUrl')) {
 
     function getUrl($url){
         (function_exists('curl_init')) ? '' : die('cURL Must be installed for geturl function to work. Ask your host to enable it or uncomment extension=php_curl.dll in php.ini');
@@ -18,4 +18,4 @@
 
         return array('html' => $html, 'status' => $status, 'request_method' => 'POST');     
     }
-//}
+}
