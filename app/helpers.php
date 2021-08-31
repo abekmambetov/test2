@@ -3,7 +3,7 @@
 if (!function_exists('getUrl')) {
 
     function getUrl($url){
-        (function_exists('curl_init')) ? '' : die('cURL Must be installed for geturl function to work. Ask your host to enable it or uncomment extension=php_curl.dll in php.ini');
+        (function_exists('curl_init')) ? '' : die('cURL не установлен');
 
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
